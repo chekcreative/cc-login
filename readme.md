@@ -1,2 +1,6 @@
 # Chek Creative Login
-A WordPress plugin that adds branding secures login against dumb bots.
+
+A WordPress Plugin.
+
+- Adds Chek Creative branding
+- Secures against dumb bots
