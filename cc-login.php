@@ -35,7 +35,7 @@ function custom_login_logo() {
 		}
         #login h1 a, .login h1 a {
             background: url('<?php echo $image[0]; ?>');
-			background-size: auto 75px;
+			background-size: contain;
 			background-repeat: no-repeat;
 			background-position: top center;
         	padding-bottom: 40px;
@@ -107,7 +107,11 @@ function my_added_login_field(){
 add_action('login_form','my_added_login_field');
 
 function my_custom_authenticate( $user, $username, $password ){
+  if($_POST) {
     $my_value = $_POST['cc-human-check'];
+  } else {
+    $my_value = null;
+  }
     $user = get_user_by('login', $username );
 
     if($user && (empty($my_value) || $my_value != 44 || $my_value != "44")){
