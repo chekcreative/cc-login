@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Chek Creative Custom Login
  * Description: Customizes the WordPress login page with Partner + Chek Creative branding.
- * Version: 1.0.2
+ * Version: 1.1
  * Author: Chek Creative
  * Author URI: https://chekcreative.com
  * License: GPL3
@@ -32,27 +32,30 @@ function custom_login_logo() {
 		body {
 			font-family: 'Montserrat', sans-serif !important;
 			background: #e5e5e5 !important;
-		}
-        #login h1 a, .login h1 a {
-            background: url('<?php echo $image[0]; ?>');
+    }
+    
+    #login h1 a, .login h1 a {
+      background: url('<?php echo $image[0]; ?>');
 			background-size: contain;
 			background-repeat: no-repeat;
 			background-position: top center;
-        	padding-bottom: 40px;
+     	padding-bottom: 40px;
 			margin: 0 auto;
 			width: 100%;
 			height: 50px;
-        }
+    }
 
-        .privacy-policy-page-link {
-            display: none;
-        }
+    .privacy-policy-page-link {
+      display: none;
+    }
 
 		#login_error {
+      margin-top: 20px !important;
 			border-left-color: #c32a68 !important;
 		}
 
 		.message {
+      margin-top: 20px !important;
 			border-left-color: #3ca087 !important;
 		}
 
@@ -96,12 +99,16 @@ add_action( 'login_enqueue_scripts', 'custom_login_logo' );
 add_action( 'login_footer', 'chek_creative_login_footer' );
 
 function my_added_login_field(){
-    //Output your HTML
     ?>
     <p>
-        <label for="cc-human-check">Prove you're human (4 times eleven)<br>
-        <input type="text" tabindex="20" size="20" value="" class="input" id="cc-human-check" name="cc-human-check"></label>
+      <?php $chal = rand(1, 9); ?>
+      <label for="cc-human-check">Prove you're human (<?php echo $chal ?> times eleven)<br></label>
+      <input type="text" tabindex="20" size="20" value="" class="input" id="cc-human-check" name="cc-human-check">
     </p>
+    <?php wp_nonce_field( 'cc-login_'.$chal ); ?>
+    <script>
+      
+    </script>
 <?php
 }
 add_action('login_form','my_added_login_field');
@@ -109,12 +116,13 @@ add_action('login_form','my_added_login_field');
 function my_custom_authenticate( $user, $username, $password ){
   if($_POST) {
     $my_value = $_POST['cc-human-check'];
+    $chalRaw = $my_value / 11;
   } else {
     $my_value = null;
   }
     $user = get_user_by('login', $username );
 
-    if($user && (empty($my_value) || $my_value != 44 || $my_value != "44")){
+    if($user && (! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'cc-login_' . $chalRaw ) )){
         remove_action('authenticate', 'wp_authenticate_username_password', 20);
         remove_action('authenticate', 'wp_authenticate_email_password', 20); 
 
@@ -124,3 +132,12 @@ function my_custom_authenticate( $user, $username, $password ){
     return null;
 }
 add_filter( 'authenticate', 'my_custom_authenticate', 10, 3 );
+
+require 'plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/chekcreative/cc-login/',
+	__FILE__,
+	'cc-login'
+);
+
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
