@@ -19,6 +19,9 @@ This plugin is intended for Chek Creative-hosted WordPress sites. We developed t
 
 == Changelog ==
 
+= 1.1.1 =
+* Fixed login tabbing
+
 = 1.1 =
 * Added automatic update checker
 * JavaScript challenge validation

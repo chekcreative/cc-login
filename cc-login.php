@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Chek Creative Custom Login
  * Description: Customizes the WordPress login page with Partner + Chek Creative branding.
- * Version: 1.1
+ * Version: 1.1.1
  * Author: Chek Creative
  * Author URI: https://chekcreative.com
  * License: GPL3
