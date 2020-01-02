@@ -103,7 +103,7 @@ function my_added_login_field(){
     <p>
       <?php $chal = rand(1, 9); ?>
       <label for="cc-human-check">Prove you're human (<?php echo $chal ?> times eleven)<br></label>
-      <input type="text" tabindex="3" size="20" value="" class="input" id="cc-human-check" name="cc-human-check">
+      <input type="text" tabindex="0" size="20" value="" class="input" id="cc-human-check" name="cc-human-check">
     </p>
     <?php wp_nonce_field( 'cc-login_'.$chal ); ?>
     <script>
