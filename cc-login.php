@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Chek Creative Custom Login
  * Description: Customizes the WordPress login page with Partner + Chek Creative branding.
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: Chek Creative
  * Author URI: https://chekcreative.com
  * License: GPL3
@@ -115,7 +115,7 @@ add_action('login_form','my_added_login_field');
 
 function my_custom_authenticate( $user, $username, $password ){
   if($_POST) {
-    $my_value = $_POST['cc-human-check'];
+    $my_value = (int) $_POST['cc-human-check'];
     $chalRaw = $my_value / 11;
   } else {
     $my_value = null;

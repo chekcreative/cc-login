@@ -19,6 +19,9 @@ This plugin is intended for Chek Creative-hosted WordPress sites. We developed t
 
 == Changelog ==
 
+= 1.1.2 =
+* Fixed (int) $my_value in support for PHP 8
+
 = 1.1.1 =
 * Fixed login tabbing
 
